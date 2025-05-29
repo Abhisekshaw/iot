@@ -38,8 +38,8 @@ const Dashboard = () => {
           device: filters.device
         });
 
-        setAllChartData(response.data.chartData || []);
-        setAllTableData(response.data.tableData || []);
+        setAllChartData(response?.data || []);
+        setAllTableData(response?.data || []);
         setError(null);
       } catch (err) {
         setError('Failed to fetch gateway data');
@@ -52,19 +52,21 @@ const Dashboard = () => {
     fetchGatewayData();
   }, [ filters.device]);
 
-  const filteredChartData = allChartData?.filter((entry) => {
-    return (
-      (!filters.time || entry.time === filters.time.split(' - ')[0]) &&
-      (!filters.device || entry.device === filters.device)
-    );
-  });
+  // const filteredChartData = allChartData?.filter((entry) => {
+  //   console.log(entry,"_-------+++++++");
+    
+  //   return (
+  //     (!filters.time || entry.time === filters.time.split(' - ')[0]) &&
+  //     (!filters.device || entry.device === filters.device)
+  //   );
+  // });
 
-  const filteredTableData = allTableData.filter((entry) => {
-    return (
-      (!filters.time || entry.time === filters.time) &&
-      (!filters.device || entry.device === filters.device)
-    );
-  });
+  // const filteredTableData = allTableData?.filter((entry) => {
+  //   return (
+  //     (!filters.time || entry.time === filters.time) &&
+  //     (!filters.device || entry.device === filters.device)
+  //   );
+  // });
 
   return (
     <div className="dashboard">
@@ -139,10 +141,12 @@ const Dashboard = () => {
         {loading && <p>Loading data...</p>}
         {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-        {!loading && !error && filters.parameter && filters.parameter !== '--Select Parameter--' && (
+        <DataTable data={allTableData} />
+        {!loading && !error !== '--Select Parameter--' && (
           <>
-            <PowerChart data={filteredChartData} parameter={filters.parameter} />
-            <DataTable data={filteredTableData} parameter={filters.parameter} />
+          <PowerChart data={allTableData} />
+            {/* <PowerChart data={filteredChartData} parameter={filters.parameter} /> */}
+            {/* <DataTable data={filteredTableData} parameter={filters.parameter} /> */}
           </>
         )}
       </main>

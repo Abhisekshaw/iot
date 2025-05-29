@@ -41,7 +41,10 @@ const getHourlyData = (data) => {
 
 const filteredData = getHourlyData(rawData);
 
-const DataTable = () => {
+const DataTable = ({data}) => {
+  console.log({data}, "DataTable Component Data");
+  
+  // -----------------------
   return (
     <div className="table-container">
       <h3 className="table-title">Sensor Data Table</h3>
@@ -58,15 +61,15 @@ const DataTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((row, i) => (
+          {data?.data?.map((row, i) => (
             <tr key={i}>
-              <td>{row.time}</td>
-              <td>{row.Pb}</td>
-              <td>{row.Tb}</td>
-              <td>{row.VmT}</td>
-              <td>{row.VbT}</td>
-              <td>{row.Qb}</td>
-              <td>{row.BatR}</td>
+              <td>{row.d_details.timestamp}</td>
+              <td>{row.flow_data.Pb}</td>
+              <td>{row.flow_data.Tb}</td>
+              <td>{row.flow_data.VmT}</td>
+              <td>{row.flow_data.VbT}</td>
+              <td>{row.flow_data.Qb}</td>
+              <td>{row.flow_data.Batt_R}</td>
             </tr>
           ))}
         </tbody>
